@@ -146,6 +146,8 @@ decode_idp_metadata(Xml) ->
         ?xpath_attr_required("//md:EntityDescriptor/@entityID", esaml_idp_metadata, entity_id, bad_entity),
         ?xpath_attr_required("//md:EntityDescriptor/md:IDPSSODescriptor/md:SingleSignOnService[@Binding='urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST']/@Location",
             esaml_idp_metadata, login_location, missing_sso_location),
+        ?xpath_attr_required("//md:EntityDescriptor/md:IDPSSODescriptor/md:SingleSignOnService[@Binding='urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect']/@Location",
+            esaml_idp_metadata, redirect_login_location, missing_redirect_sso_location),
         ?xpath_attr("//md:EntityDescriptor/md:IDPSSODescriptor/md:SingleLogoutService[@Binding='urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST']/@Location",
             esaml_idp_metadata, logout_location),
         ?xpath_text("//md:EntityDescriptor/md:IDPSSODescriptor/md:NameIDFormat/text()",
