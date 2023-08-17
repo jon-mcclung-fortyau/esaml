@@ -13,7 +13,9 @@
 -include_lib("xmerl/include/xmerl.hrl").
 
 -export([setup/1, generate_authn_request/2, generate_metadata/1]).
--export([validate_assertion/2, validate_assertion/3, validate_assertion/4]).
+-export([validate_assertion/2, validate_assertion/3,
+    %  validate_assertion/4
+    ]).
 -export([generate_logout_request/3, generate_logout_response/3]).
 -export([validate_logout_request/2, validate_logout_response/2]).
 
@@ -197,15 +199,15 @@ validate_assertion(Xml, SP = #esaml_sp{}) ->
 validate_assertion(Xml, DuplicateFun, SP = #esaml_sp{}) ->
     Ns = [{"samlp", 'urn:oasis:names:tc:SAML:2.0:protocol'},
           {"saml", 'urn:oasis:names:tc:SAML:2.0:assertion'}],
-          validate_assertion(Xml, DuplicateFun, SP, Ns).
-
+        %   validate_assertion(Xml, DuplicateFun, SP, Ns).
+% 
 %% @doc Validate and decode an assertion envelope in parsed XML
 %%
 %% The dupe_fun argument is intended to detect duplicate assertions
 %% in the case of a replay attack.
--spec validate_assertion(xml(), dupe_fun(), esaml:sp(), [tuple()]) ->
-        {ok, esaml:assertion()} | {error, Reason :: term()}.
-validate_assertion(Xml, DuplicateFun, SP = #esaml_sp{}, Ns) ->
+% -spec validate_assertion(xml(), dupe_fun(), esaml:sp(), [tuple()]) ->
+        % {ok, esaml:assertion()} | {error, Reason :: term()}.
+% validate_assertion(Xml, DuplicateFun, SP = #esaml_sp{}, Ns) ->
     esaml_util:threaduntil([
         fun(X) ->
             case xmerl_xpath:string("/samlp:Response/saml:Assertion", X, [{namespace, Ns}]) of
