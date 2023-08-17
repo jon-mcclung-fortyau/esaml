@@ -33,7 +33,8 @@ add_xml_id(Xml) ->
 %% @doc Return an AuthnRequest as an XML element
 -spec generate_authn_request(IdpURL :: string(), esaml:sp()) -> #xmlElement{}.
 generate_authn_request(IdpURL, SP) ->
-    generate_authn_request(IdpUrl, SP, "").
+    generate_authn_request(IdpUrl, SP, "")
+    end;
 
 %% @doc Return an AuthnRequest as an XML element
 -spec generate_authn_request(IdpURL :: string(), esaml:sp(), EntityID :: string()) -> #xmlElement{}.
