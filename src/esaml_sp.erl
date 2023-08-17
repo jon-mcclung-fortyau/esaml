@@ -203,7 +203,7 @@ validate_assertion(Xml, DuplicateFun, SP = #esaml_sp{}) ->
 %%
 %% The dupe_fun argument is intended to detect duplicate assertions
 %% in the case of a replay attack.
--spec validate_assertion(xml(), dupe_fun(), esaml:sp(), [tuple()])) ->
+-spec validate_assertion(xml(), dupe_fun(), esaml:sp(), [tuple()]) ->
         {ok, esaml:assertion()} | {error, Reason :: term()}.
 validate_assertion(Xml, DuplicateFun, SP = #esaml_sp{}, Ns) ->
     esaml_util:threaduntil([
