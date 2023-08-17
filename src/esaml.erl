@@ -409,13 +409,13 @@ to_xml(#esaml_authnreq{version = V, issue_instant = Time, destination = Dest, is
                   #xmlAttribute{name = 'ProtocolBinding', value = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"}],
 
     %% Add 'entityID' attribute if not empty
-    AttributesAfterEntityID = case EntityID of  %% this is line 412
+    Attributes = case EntityID of
         "" -> Attributes;
         _  -> Attributes ++ [#xmlAttribute{name = 'entityID', value = EntityID}]
     end,
 
     esaml_util:build_nsinfo(Ns, #xmlElement{name = 'samlp:AuthnRequest',
-        attributes = AttributesAfterEntityID,
+        attributes = Attributes,
         content = [
             #xmlElement{name = 'saml:Issuer', content = [#xmlText{value = Issuer}]},
             #xmlElement{name = 'saml:Subject', content = [
