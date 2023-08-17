@@ -31,7 +31,7 @@ add_xml_id(Xml) ->
         ]}.
 
 %% @doc Return an AuthnRequest as an XML element
--spec generate_authn_request(IdpURL :: string(), esaml:sp(), EntityID :: string()) -> #xmlElement{}.
+-spec generate_authn_request(IdpURL :: string(), esaml:sp(), entity_id :: string()) -> #xmlElement{}.
 generate_authn_request(IdpURL, SP = #esaml_sp{metadata_uri = MetaURI, consume_uri = ConsumeURI}, EntityID = "") ->
     Now = erlang:localtime_to_universaltime(erlang:localtime()),
     Stamp = esaml_util:datetime_to_saml(Now),
