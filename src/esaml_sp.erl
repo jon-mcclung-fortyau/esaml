@@ -12,7 +12,7 @@
 -include("esaml.hrl").
 -include_lib("xmerl/include/xmerl.hrl").
 
--export([setup/1, generate_authn_request/3, generate_metadata/1]).
+-export([setup/1, generate_authn_request/2, generate_authn_request/3, generate_metadata/1]).
 -export([validate_assertion/2, validate_assertion/3]).
 -export([generate_logout_request/3, generate_logout_response/3]).
 -export([validate_logout_request/2, validate_logout_response/2]).
@@ -31,8 +31,14 @@ add_xml_id(Xml) ->
         ]}.
 
 %% @doc Return an AuthnRequest as an XML element
+-spec generate_authn_request(IdpURL :: string(), esaml:sp()) -> #xmlElement{}.
+generate_authn_request(IdpURL, SP) ->
+    generate_authn_request(IdpUrl, SP, "")
+    end;
+
+%% @doc Return an AuthnRequest as an XML element
 -spec generate_authn_request(IdpURL :: string(), esaml:sp(), EntityID :: string()) -> #xmlElement{}.
-generate_authn_request(IdpURL, SP = #esaml_sp{metadata_uri = MetaURI, consume_uri = ConsumeURI}, EntityID = "") ->
+generate_authn_request(IdpURL, SP = #esaml_sp{metadata_uri = MetaURI, consume_uri = ConsumeURI}, EntityID) ->
     Now = erlang:localtime_to_universaltime(erlang:localtime()),
     Stamp = esaml_util:datetime_to_saml(Now),
 
