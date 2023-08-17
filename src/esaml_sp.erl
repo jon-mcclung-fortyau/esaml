@@ -13,7 +13,7 @@
 -include_lib("xmerl/include/xmerl.hrl").
 
 -export([setup/1, generate_authn_request/2, generate_metadata/1]).
--export([validate_assertion/2, validate_assertion/3,
+-export([validate_assertion/2, validate_assertion/3
     %  validate_assertion/4
     ]).
 -export([generate_logout_request/3, generate_logout_response/3]).
