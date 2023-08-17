@@ -396,26 +396,18 @@ lang_elems(BaseTag, Val) ->
 %% @doc Convert a SAML request/metadata record into XML
 %% @private
 -spec to_xml(saml_record()) -> #xmlElement{}.
-to_xml(#esaml_authnreq{version = V, issue_instant = Time, destination = Dest, issuer = Issuer, consumer_location = Consumer, entity_id = EntityID}) ->
+to_xml(#esaml_authnreq{version = V, issue_instant = Time, destination = Dest, issuer = Issuer, consumer_location = Consumer}) ->
     Ns = #xmlNamespace{nodes = [{"samlp", 'urn:oasis:names:tc:SAML:2.0:protocol'},
                                 {"saml", 'urn:oasis:names:tc:SAML:2.0:assertion'}]},
 
-    Attributes = [#xmlAttribute{name = 'xmlns:samlp', value = proplists:get_value("samlp", Ns#xmlNamespace.nodes)},
-                  #xmlAttribute{name = 'xmlns:saml', value = proplists:get_value("saml", Ns#xmlNamespace.nodes)},
-                  #xmlAttribute{name = 'IssueInstant', value = Time},
-                  #xmlAttribute{name = 'Version', value = V},
-                  #xmlAttribute{name = 'Destination', value = Dest},
-                  #xmlAttribute{name = 'AssertionConsumerServiceURL', value = Consumer},
-                  #xmlAttribute{name = 'ProtocolBinding', value = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"}],
-
-    %% Add 'entityID' attribute if not empty
-    Attributes = case EntityID of
-        "" -> Attributes;
-        _  -> Attributes ++ [#xmlAttribute{name = 'entityID', value = EntityID}]
-    end,
-
     esaml_util:build_nsinfo(Ns, #xmlElement{name = 'samlp:AuthnRequest',
-        attributes = Attributes,
+        attributes = [#xmlAttribute{name = 'xmlns:samlp', value = proplists:get_value("samlp", Ns#xmlNamespace.nodes)},
+                      #xmlAttribute{name = 'xmlns:saml', value = proplists:get_value("saml", Ns#xmlNamespace.nodes)},
+                      #xmlAttribute{name = 'IssueInstant', value = Time},
+                      #xmlAttribute{name = 'Version', value = V},
+                      #xmlAttribute{name = 'Destination', value = Dest},
+                      #xmlAttribute{name = 'AssertionConsumerServiceURL', value = Consumer},
+                      #xmlAttribute{name = 'ProtocolBinding', value = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"}],
         content = [
             #xmlElement{name = 'saml:Issuer', content = [#xmlText{value = Issuer}]},
             #xmlElement{name = 'saml:Subject', content = [
